@@ -1,19 +1,20 @@
+// index.js
 const express = require("express");
-const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
+
+const userRoutes = require("./users/users.controller");
+
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-dotenv.config();
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
 
-const PORT = process.env.PORT;
-
-app.get("/api", (req, res) => {
-  res.send("Hello World");
-});
-
-const productController = require("./product/product.controller");
-app.use("/products", productController);
+// User routes
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
-  console.log("Express API Runinng in port: " + PORT);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
